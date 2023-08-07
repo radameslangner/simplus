@@ -1,0 +1,63 @@
+<%- include ('../partials/top'); %>
+<%- include ('../partials/messageModal'); %>
+<header><%- include ('../partials/navbarAdmin'); %></header>
+
+    <main class="flex-container direction-column">
+
+         
+        <h1 class="text-center">PAINEL DO ADMINISTRADOR</h1>
+
+        <div class="boxNewEmpUser" >
+
+
+                             
+        <form class="empUser" action="/empresaUsuario/save" method="post">
+          
+            <div class="input-group mb-3">
+                <span class="input-group-text tituloNavEmpUser">Gerenciamento - Empresa / Funcionário</span>
+            </div>
+
+        
+        <div class="input-group  mb-3">
+            <span class="input-group-text">Lista Empresas</span>
+            <select  class="form-select" id="id-csosn" name="empresaId" required>     
+                <% empresas.forEach(function(empresa){  %>
+                    <option value="<%=empresa.id%>" selected ><%=empresa.razao%> - <%=empresa.fantasia%></option> 
+                <% }) %>
+            </select>
+        </div>
+
+
+        <div class="input-group  mb-3">
+            <span class="input-group-text">Lista Usuários</span>
+            <select  class="form-select" id="id-csosn" name="usuarioId" required>     
+                <% usuarios.forEach(function(usuario){  %>
+                    <option value="<%=usuario.id%>" selected ><%=usuario.nome%></option> 
+                <% }) %>
+            </select>
+        </div>
+
+        <div class="col-12"> 
+            <input class="button btn btn-sm btn-primary" type="submit" value="Salvar">
+            <input class="button btn btn-sm btn-secondary" type="reset" value="Limpar">
+        </div>
+
+
+    </form>
+
+    </div>
+
+    </main>
+
+
+    <%- include ('../partials/footer'); %>
+
+    <%- include ('../partials/down'); %>
+
+    <script>
+        function showModal() {  
+            let el = document.getElementById('modal-message')
+            let modal = new bootstrap.Modal(el)
+            modal.show()          
+         }
+    </script>

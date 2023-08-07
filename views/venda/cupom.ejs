@@ -1,0 +1,91 @@
+<%- include ('../partials/top') %>
+<%- include ('../partials/messageModal'); %>
+<header><%- include ('../partials/navbar') %></header>
+
+    <main class="">
+
+       <div class="centro">
+
+            <div>CNPJ: <%=dadosvenda.empresa.cnpj%> - <%=dadosvenda.empresa.razao%>   </div>
+            <div>Endereço: <%=dadosvenda.empresa.endereco.logradouro%>, <%=dadosvenda.empresa.endereco.numero%> - <%=dadosvenda.empresa.endereco.bairro%> / <%=dadosvenda.empresa.endereco.municipio%>   </div>
+            <div>Documento Auxiliar de Nota Fiscal de Consumidor Eletônica </div>
+            
+            <div>
+                <table id="tabela" class="table table-hover table-bordered">
+                    <thead class="fixa">
+                        <th class="centro">#</th>
+                        <th class="centro">Código</th>
+                        <th class="centro">Descricao</th>
+                        <th class="centro">Quantidade</th>
+                        <th class="centro">UN</th>
+                        <th class="centro">R$</th>
+                        <th class="centro">Total R$</th>
+                    </thead>
+                    <tbody id="corpo">
+
+                    <% dadositems.forEach(function(item, indice){ %>
+                        
+                    <tr>
+                        <td><%=indice  + 1%></td>
+                        <td><%=item.id%></td>
+                        <td><%=item.produto.descricao%></td>
+                        <td><%=item.quantidade%></td>
+                        <td><%=item.produto.unidade.unidade%></td>
+                        <td><%=item.produto.preco%></td>
+                        <td><%=item.total%></td>
+                    </tr>
+
+                    
+
+                    <% }) %>
+                       
+                    </tbody>
+                </table>
+                <hr>
+                <div class="linhaVenda">
+                    <div>Quantidade Total de itens</div>
+                    <div><%=dadositems.length%></div>
+                </div>
+
+                <div class="linhaVenda">
+                    <div>Valor Total R$:</div>
+                    <div><%=dadosvenda.total%></div>
+                </div>
+                <hr>
+                <div class="consulteSefaz">
+                    <div>Consulte pela Chave de Acesso em </div> 
+                    <div>www.sefaz.rs.gov.br/consulta</div>
+                    <div>4322 0193 2097 6504 1301 6501 5000 2041 4613 5053 0493</div>
+                </div>
+                <div class="qrcode" id="qrcode"> </div>
+                    <script src="/js/qrcode.min.js">  </script>
+                    <script> 
+                        new QRCode(document.getElementById("qrcode"), {
+                            text: "4322 0193 2097 6504 1301 6501 5000 2041 4613 5053 0493",
+                            width: 150,
+                            height: 150,
+                            colorDark : "#000000",
+                            colorLight : "#ffffff",
+                            correctLevel : QRCode.CorrectLevel.H
+                        } )        
+                    </script>
+
+                <div class="tributacao">
+                    <div>Tributação aproximada R$: <%=(dadosvenda.total * 0.04).toFixed(2) %> </div>
+                    <div>Operador: <%=dadosvenda.usuario.nome%></div>         
+                    <div>Venda <%=dadosvenda.id%> </div>
+                    <div> Data <% data = new Date() %> <%=data%>  </div>
+                
+                    
+                </div>
+
+            </div>
+
+       </div>
+              
+    </main>
+
+
+    <%- include ('../partials/footer') %>
+
+    <%- include ('../partials/down') %>

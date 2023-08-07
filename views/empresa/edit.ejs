@@ -1,0 +1,118 @@
+<%- include ('../partials/top'); %>
+
+<header><%- include ('../partials/navbar'); %></header>
+
+
+<main class="flex-container direction-column">
+
+    <h1 class="text-center">CADASTRO DE EMPRESA - EDITAR</h1> 
+
+    <div class="boxNewEmpresa">
+
+          
+    <form action="/empresa/edit" method="POST" class="empresa needs-validation" novalidate>
+           
+        <div class="input-group  mb-3">
+            <span class="input-group-text bg-color-ncm">Registro</span>
+            <input class="form-control" type="text" id="empresaId" name="id" readonly value="<%=empresa.id%>" required>
+
+            <span class="input-group-text bg-color-ncm">Status</span>
+            <select  class="form-select" id="id-status" name="status" required>  
+
+                <% if (empresa.status == true) {%>
+                        <option selected="selected" value=1>Ativa</option>
+                        <option value=0>Inativa</option>
+                <% } 
+                    else { %>
+                        <option value=1>Ativa</option>
+                        <option selected="selected" value=0>Inativa</option>
+                <% } %>
+            </select>
+               
+        </div>            
+
+
+      
+        <div class="input-group  mb-3">
+            <span class="input-group-text bg-color-ncm">Razão Social</span>
+            <input class="form-control" type="text" id="id-razao" name="razao" value="<%=empresa.razao%>" autofocus required>
+        </div>
+
+    
+        
+        <div class="input-group  mb-3">
+            <span class="input-group-text">Nome Fantasia </span>
+            <input class="form-control" type="text" id="id-fantasia" name="fantasia" value="<%=empresa.fantasia%>"  required>
+        </div>
+
+    
+
+        <div class="input-group  mb-3">
+            <span class="input-group-text">CNPJ</span>
+            <input class="form-control" type="number"  step="1" id="id-cnpj" name="cnpj" value="<%=empresa.cnpj%>" required>
+            <span  class="input-group-text">Insc. Estadual</span>
+            <input class="form-control" type="number"  step="1" id="id-ie" name="ie" value="<%=empresa.ie%>" required>
+        </div>                   
+        
+        
+
+        <div class="input-group  mb-3">
+            <span class="input-group-text">Código CSOSN</span>
+            <select  class="form-select" id="id-csosn" name="csosnId" required>  
+
+                <% csosns.forEach(function(csosn){ 
+                    if (empresa.csosnId == csosn.id) {%>
+                            <option selected="selected" value="<%=csosn.id%>"><%=csosn.csosn%> - <%=csosn.descricao%></option>
+                        <% } 
+                        else { %>
+                            <option value="<%=csosn.id%>"><%=csosn.csosn%> - <%=csosn.descricao%></option>
+                        <% } %>
+                <% }) %>
+
+            </select>
+           
+        </div>
+
+        <% enderecos.forEach(function(endereco) {
+            if (empresa.enderecoId == endereco.id) {%>
+
+        <div class="input-group  mb-3">
+            <span class="input-group-text">Endereço </span>
+            <input class="form-control" type="hidden" id="id-endereco" name="enderecoId" value="<%=endereco.id%>" required>
+            <input class="form-control" type="text" id="id-logradouro" name="logradouro" value="<%=endereco.logradouro%>" required>
+        </div>
+
+
+        <div class="input-group  mb-3">
+            <span class="input-group-text">Número </span>
+            <input class="form-control" type="text" id="id-numero" name="numero" value="<%=endereco.numero%>" required>
+            <span class="input-group-text">CEP </span>
+            <input class="form-control" type="text" id="id-cep" name="cep" value="<%=endereco.cep%>" required>
+        </div>
+
+
+        <div class="input-group  mb-3">
+            <span class="input-group-text">Bairro </span>
+            <input class="form-control" type="text" id="id-bairro" name="bairro" value="<%=endereco.bairro%>"  required>
+            <span class="input-group-text">Município </span>
+            <input class="form-control" type="text" id="id-municipio" name="municipio" value="<%=endereco.municipio%>" required>
+        </div>
+
+        <% } }) %>
+                   
+        <div class="col-12"> 
+            <input class="button btn btn-sm btn-primary" type="submit" value="Salvar">
+            <input class="button btn btn-sm btn-secondary" type="reset" value="Limpar">
+            
+        </div>
+
+    </form>    
+    
+</div>
+  
+</main>
+
+
+    <%- include ('../partials/footer'); %>
+
+    <%- include ('../partials/down'); %>

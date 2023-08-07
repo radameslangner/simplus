@@ -1,0 +1,34 @@
+<%- include ('../partials/top'); %>
+
+<header><%- include ('../partials/navbar'); %></header>
+
+
+    <main class="flex-container direction-column">
+
+         
+        <h1 class="text-center">NCM - Consulta NCM</h1>
+
+      
+        <form action="/ncms" method="POST">
+    
+            <div class="form-group">
+                <label for="id-descricao" class="form-label">Descicao</label>
+                <input class="form-control" type="text" id="id-descricao" name="descricao" required>
+            </div>
+
+            <div class="form-group base-line margin-top-10px"> 
+                
+                <input class="button margin-left-30-por btn btn-primary" type="submit" value="Buscar">
+                
+            </div>
+    
+        </form>    
+        
+              
+    </main>
+
+    <article> <%- include ('../partials/menuProduct.ejs'); %></article>
+
+    <%- include ('../partials/footer'); %>
+
+    <%- include ('../partials/down'); %>

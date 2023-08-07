@@ -1,0 +1,495 @@
+
+body{
+    height: 100vh;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 10fr 1fr;
+    grid-template-areas: 'header header'
+                         'main main'
+                         'footer footer';
+    font-size: 1rem;
+    font-family: oswald;    
+}
+
+header {
+    margin: 0 auto;
+    width: 100%;    
+    min-height: 100px;
+    max-height: 100px;
+    grid-area: header;
+    display: flex;
+    background: rgba(0, 0, 0, 0.5);   
+    
+    background-image: url(../imagens/fundoEscuro.jpg);
+    background-repeat: no-repeat;
+    background-size: cover; /* Ajusta a imagem */
+    background-position: top center; /* foca o centro da imagem */   
+    overflow: hidden; 
+}
+
+
+main{
+    display: flex;
+    margin: 0 auto;
+    width: 100%;
+    max-height: calc(100vh - 200px);
+    grid-area: main;
+}
+
+footer {
+    width: 100%;
+    min-height: 100px;
+    max-height: 100px;
+    grid-area: footer;
+    background: rgba(0, 0, 0, 0.1);
+
+    background-image: url(../imagens/fundoEscuro.jpg);
+    background-repeat: no-repeat;
+    background-size: cover; /* Ajusta a imagem */
+    background-position: bottom center; /* foca o centro da imagem */   
+    overflow: hidden; 
+}
+
+
+form {
+    margin: 0% auto;
+    width: 80%;
+    background-color: none;
+}
+
+form.admin {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+form.sale {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    justify-content: space-between;
+    box-sizing: border-box;
+}
+
+table {
+    background-color: rgb(208, 211, 190);
+}
+
+
+a, a:link, a:hover, a:visited, a:active {
+    text-decoration: none;
+    background-color: none;
+}
+
+a.remove {
+    color: lightcoral
+}
+
+a.atencao {
+        color:#dc143c;
+    }
+
+a.reset {
+    color: #6ACAD8;
+}
+
+h1 {
+    text-align: center;
+    color: indianred;
+    display: block;
+    width: 100%;
+    /* height: 100px; */
+    /* padding: 15px; */
+    margin-top: 15px;
+}
+
+h2 {
+text-align: center;
+}
+
+h3 {
+    text-align: center;
+    font-size: 24px;
+}
+ /* h3 a {
+    font-size: 24px;
+    text-decoration: none;
+} */
+
+.height-25px {
+    height: 25px;
+}
+
+/* tem */
+.flex-container {
+    display: flex;
+}
+
+.direction-column {
+    flex-direction: column;
+}
+
+.direction-row {
+    flex-direction: row;
+}
+/*   */
+
+
+
+
+.base-line {
+    align-items: baseline;
+}
+
+.message {
+    margin-top: 10px;
+    margin-right: 50px;
+    margin-left: 50px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.margin-left-30-por {
+    margin-left: 30%;
+}
+
+.margin-left-50-por {
+    margin-left: 50%;
+}
+
+.margin-top-10px {
+    margin-top: 10px;
+}
+
+.margin-left-10-px {
+    margin-left: 10px;
+}
+
+.margin-left-right-5por{
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+.margin-40-por {
+    margin-left: 40%;
+}
+
+.border {
+    border: cornflowerblue solid 1px;
+}
+
+.width-40-por {
+    width: 40%;
+}
+
+/* Produtos */
+
+.boxNewProduct {
+    display: flex;
+    margin: 0 auto;
+    box-sizing: border-box;
+    margin-bottom: 25px;
+    min-width: 50%;
+    max-width: 80%;
+    background-color: white;
+    border: solid 1px rgb(90, 94, 100);
+    box-shadow: 10px 10px grey;    
+}
+
+span {
+    width: 25%;
+    font-size: 0.8rem;
+    
+}
+
+span:hover.bg-color-button-busca-ncm{
+    color: white;
+    
+}
+
+span.flexgrow {
+    flex-grow: 1;
+}
+
+form.product {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    width: 90%;
+    padding: 2%;
+    max-height: calc(100vh - 300px);
+    overflow-Y: scroll;
+    box-sizing: border-box;
+}
+
+
+
+/*  Fim produto */
+
+
+
+
+/*  Vendas */
+
+form.sale {
+    display: flex;
+    width: 100%;  
+    justify-content: stretch;
+    box-sizing: border-box;
+}
+
+.principal {
+    width: 100%;
+    height: calC(100vh - 250px);
+    display: flex;
+    flex-direction: row;   
+    justify-content: stretch;
+    flex-grow: 1;
+    box-sizing: border-box;
+    
+}
+
+.ladoEsquerdo {
+    width: 100%;
+    height: calc(100vh -250px);
+    margin: 2%;
+}
+
+.linhaBloco {
+    margin-bottom: 1%;
+}
+
+.ladoDireito {
+    display: flex;
+    flex-grow: 1;
+    width: 100%;
+    justify-content: stretch;
+    margin: 1%;
+}
+
+.direita {
+    text-align: right;
+}
+.centro {
+    text-align: center;
+    margin: 0 auto;
+}
+
+.listaItem {
+    flex-grow: 1;
+    /* margin-right: 10px; */
+    overflow-Y: scroll; 
+    border: solid 1px #222;
+    /* padding: 12px; */
+    background-color: #e9ecef;
+    box-shadow: 10px 10px grey;    
+}
+
+.fixa {
+    position: sticky;
+    top: 0;
+    background-color: white;
+}
+
+.total {
+    align-self: center;
+    flex-grow: 1;
+    margin: 2% auto;
+    border: solid 1px black;
+    border-radius: 5px;
+    color: rgb(47, 44, 45);
+    font-size: 1rem;
+    padding: 5px;
+    background-color: #f0c37c;
+}
+
+
+.estiloCampoTotal {
+    padding-left: 25px;
+    width: 50%;
+    color: crimson;
+}
+
+.consulteSefaz {
+    display: none;
+    margin: 25px;
+}
+
+.tributacao {
+    display: none;
+}
+
+.linhaVenda {
+    display: flex;
+    justify-content: space-between;
+}
+.qrcode {
+    display: none;
+    justify-content: center;
+}
+
+/* Fim Vendas */
+
+/* footer */
+
+.clock {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    font-size: 2rem;
+    color: white;
+    
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    margin-top: 15px;
+    margin-left: 25px;
+}
+
+.tecla {
+    width: 100px;
+    text-align: center;
+    border: solid 1px gray;
+    border-radius: 5px;
+    background-color: #222;
+    color: white;
+    font-size: 0.8rem;
+}
+
+.linha {
+    display: flex;
+}
+
+.infoTecla {
+    margin-left: 15px;
+    color: white;
+}
+
+/* Fim footer */
+
+/* Empresa  */
+
+.boxNewEmpresa:before {
+
+    box-shadow: 10 10 15px 15px insert;
+}
+
+.boxNewEmpresa {
+    display: flex;
+    margin: 0 auto;
+    box-sizing: border-box;
+    margin-bottom: 25px;
+    min-width: 50%;
+    max-width: 80%;
+    background-color: white;
+    border: solid 1px rgb(90, 94, 100);
+    box-shadow: 10px 10px grey; 
+}
+
+.tabelaScroll-y {
+    overflow-Y: scroll; 
+}
+
+form.empresa {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    width: 90%;
+    padding: 2%;
+    max-height: calc(100vh - 300px);
+    overflow-Y: scroll;
+    box-sizing: border-box;
+}
+
+.msg {
+    width: 100%;
+    position: relative;
+    right: 0;
+    text-align: center;
+}
+
+.boxLogin {
+    display: flex;
+    margin: 0 auto;
+    width: 40%;
+    height: 100%;
+    border-color: rgb(202, 143, 95);
+    background-color: white;
+    align-content: space-around;
+    border: solid 1px rgb(90, 94, 100);
+    border-radius: 15px; 
+    
+}
+
+form.login {
+    align-self: center;
+    width: 90%;
+    height: 90%;
+    padding: 2%;
+    box-sizing: border-box;
+}
+
+.boxIndex {
+    margin: 0 auto;
+    width: 60%;
+    height: 100%;
+}
+
+/* Emp User*/
+
+form.empUser {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    width: 90%;
+    padding: 2%;
+    max-height: calc(100vh - 300px);
+    overflow-Y: scroll;
+    box-sizing: border-box;
+}
+
+.boxEmpUserIndex {
+    display: flex;
+    flex-grow: 1;
+    justify-content: stretch;
+}
+
+.boxAdmin {
+    display: flex;
+    margin: 0 auto;
+    width: 50%;
+    height: calc( 100% - 150px);
+    /* border-radius: 10px; */
+    border-color: rgb(202, 143, 95);
+    background-color: white;
+    align-content: space-around;
+    border: solid 1px rgb(90, 94, 100);
+    /* border-radius: 15px;  */
+    box-shadow: 10px 10px grey;   
+}
+
+
+.tituloNavEmpUser {
+    margin-top: 50px;
+    margin-bottom: 10px;
+    flex-grow: 1;
+    border: solid black 1px;
+    background-color: rgb(192, 173, 173);
+}
+
+
+.boxNewEmpUser {
+    display: flex;
+    margin: 0 auto;
+    box-sizing: border-box;
+    margin-bottom: 25px;
+    min-width: 50%;
+    max-width: 80%;
+    background-color: white;
+    border: solid 1px rgb(90, 94, 100);
+    box-shadow: 10px 10px grey; 
+}

@@ -1,0 +1,117 @@
+<%- include ('../partials/top'); %>
+
+<header><%- include ('../partials/navbar'); %></header>
+
+
+    <main class="flex-container direction-column">
+
+         
+        <h1 class="text-center">CADASTRO DE PRODUTO</h1>
+
+      
+        <form action="/produto/edit" method="POST">
+    
+            <div class="input-group mb-3">
+                <span  class="input-group-text">Registro de Produto</span>
+                <input class="form-control" type="text" id="id-produto" readonly name="id" value="<%=produto.id%>" required>
+            </div>
+
+            <div class="input-group mb-3">
+                <span class="input-group-text">Descrição do Produto</span>
+                <input class="form-control" type="text" id="id-description" name="descricao" value="<%=produto.descricao%>" required>
+            </div>               
+            <div class="input-group mb-3">
+                <span class="input-group-text">Código NCM</span>
+                <input class="form-control" type="text" id="id-description" name="ncm" value="<%=produto.ncm%>" required>
+            </div>                
+
+            <div class="input-group mb-3">
+                <span class="input-group-text">CFOP</span>
+                <select  class="form-select" id="id-cfop" name="cfop" >
+                    
+                    <% cfops.forEach(function(cfop){ 
+                        if (cfop.cfop == produto.cfop) {%>
+                                <option selected="selected" value="<%=cfop.cfop%>"><%= cfop.cfop %> - <%= cfop.descricao_aplicacao%></option>
+                            <% } 
+                            else { %>
+                                <option value="<%=cfop.cfop%>"><%= cfop.cfop %> - <%= cfop.descricao_aplicacao%></option>
+                            <% } %>
+                    <% }) %>
+
+                </select>
+            </div>
+
+            <div class="input-group mb-3">
+                <span class="input-group-text">CSOSN</span>
+                <select  class="form-select" id="id-csosn" name="csosn" >
+                    
+                    <% csosns.forEach(function(csosn){ 
+                        if (csosn.csosn == produto.csosn) {%>
+                                <option selected="selected" value="<%=csosn.csosn%>"><%= csosn.csosn %> - <%= csosn.descricao %></option>
+                            <% } 
+                            else { %>
+                                <option value="<%=csosn.csosn%>"><%= csosn.csosn %> - <%=  csosn.descricao %></option>
+                            <% } %>
+                    <% }) %>
+                    
+                </select>
+            </div>   
+
+
+            <div class="input-group mb-3">
+                <span class="input-group-text">Custo R$: </span>
+                <input class="form-control" type="number" step="any" id="id-cost" name="custo" value="<%=produto.custo%>" required>
+            </div>           
+            
+
+            <div class="input-group mb-3">
+                <span class="input-group-text">Preço de Venda R$: </span>
+                <input class="form-control" type="number" step="any" id="id-price" name="preco" value="<%=produto.preco%>" required>
+            </div>     
+
+
+            <div class="input-group mb-3">
+                <span class="input-group-text">Unidade de Medida</span>
+                <select  class="form-select" id="id-unity" name="unidadeId" >
+                    <% unidades.forEach(function(unidade){ 
+                        if (produto.unidadeId == unidade.id) {%>
+                                <option selected="selected" value="<%=unidade.id%>"><%=unidade.unidade%> - <%=unidade.descricao%></option>
+                            <% } 
+                            else { %>
+                                <option value="<%=unidade.id%>"><%=unidade.unidade%> - <%=unidade.descricao%></option>
+                            <% } %>
+                    <% }) %>
+
+                </select>
+            </div>                 
+
+            <div class="input-group mb-3">
+                <span class="input-group-text">Status Produto</span>
+                <select  class="form-select" id="id-produto-status" name="status" >
+                    <% if(produto.status==true) { %>
+                        <option value=1 selected>Válido</option>
+                        <option value=0>Inválido</option>
+                    <% }
+                        else { %> 
+                            <option value=1>Válido</option>
+                            <option value=0 selected>Inválido</option>
+                        <% }; %>
+                </select>
+            </div>            
+
+
+            <div class="form-group base-line margin-top-10px"> 
+                
+                <input class="button margin-left-30-por btn btn-primary" type="submit" value="Editar">
+                
+            </div>
+    
+        </form>    
+        
+              
+    </main>
+
+
+    <%- include ('../partials/footer'); %>
+
+    <%- include ('../partials/down'); %>

@@ -1,0 +1,47 @@
+<%- include ('../partials/top'); %>
+
+<header><%- include ('../partials/navbar'); %></header>
+
+
+    <main class="flex-container direction-column">
+
+         
+        <h1 class="text-center">CADASTRO DE USUÁRIO - ALTERA</h1>
+      
+        <div class="boxLogin">
+        
+        <form action="/usuario/update" method="POST">
+    
+
+
+            <div class="form-group">
+                <label for="id-nome" class="form-label">Nome</label>
+                <input class="" type="hidden" name="id" value="<%=usuario.id%>">
+                <input class="form-control" type="text" id="id-nome" name="nome" value="<%=usuario.nome%>" required autofocus>
+            </div>
+
+            <div class="form-group margin-top-10px">
+                <label for="id-email" class="form-label">e-mail</label>
+                <input class="form-control" type="text" id="id-email" name="email" value="<%=usuario.email%>" required>
+            </div>
+    
+            <div class="form-group margin-top-10px">
+                <label for="id-senha-atual" class="form-label">Senha Atual</label>
+                <input class="form-control" type="password" id="id-senha-atual" name="senhaAtual" placeholder="Informe Senha Atual." required>
+            </div>
+
+            <div class="form-group base-line margin-top-10px"> 
+                <input class="" type="hidden" name="senhaBanco" value="<%=usuario.senha%>">
+                <input class="button margin-left-30-por btn btn-primary" type="submit" value="Salvar">
+                <a href="/usuario/updatePassWord/<%=usuario.id%>" class="btn-link margin-left-10-px atencao">Alterar Senha</a>
+            </div>
+    
+        </form>       
+
+        </div>
+    </main>
+
+    
+    <%- include ('../partials/footer'); %>
+
+    <%- include ('../partials/down'); %>

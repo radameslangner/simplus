@@ -1,0 +1,40 @@
+    * {
+    background:transparent !important;
+    color:#000 !important;
+    text-shadow:none !important;
+    filter:none !important;
+    -ms-filter:none !important;
+    }
+
+    body {
+    margin:0;
+    padding:0;
+    line-height: 1.4em;
+    font-family: 'Courier New', 'Times New Roman';
+}
+
+
+@page {
+    margin: 0.5cm;
+}
+
+.qrcode {
+    display: flex;
+    justify-content: center;
+}
+
+.consulteSefaz {
+    display: block;
+    margin: 25px;
+}
+
+.tributacao {
+    display: block;
+    text-align: center;
+    margin-top: 15px;
+}
+
+nav, footer, video, audio, object, embed, div.caixa-box-logo, div.user { 
+    display:none; 
+}        
+

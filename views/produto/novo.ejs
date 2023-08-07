@@ -1,0 +1,289 @@
+<%- include ('../partials/top'); %>
+
+<header><%- include ('../partials/menuProduto'); %></header>
+
+<!-- modal -->            
+<div class="modal" tabindex="-1" id="modal-ncm" data-bs-backdrop="static">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Lista NCM - Nomenclatura Comum do Mercosul</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-span="Close" onclick=cleanTable()></button>
+        </div>
+        <div id="modal-body" class="modal-body">
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick=cleanTable()>Close</button>
+            <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+        </div>
+        </div>
+    </div>
+    </div>             
+<!-- /modal -->  
+
+
+    <main class="flex-container direction-column">
+
+        <h1 class="text-center">CADASTRO DE PRODUTO</h1> 
+
+        <div class="boxNewProduct">
+              
+        <form action="/produto/save" method="POST" class="product needs-validation" novalidate>
+                
+            <div class="input-group  mb-3 ">
+                <span class="input-group-text bg-color-button-busca-ncm" onclick="buscaNcms(), showModalNcm()">Consulta NCM </span>
+                <input class="form-control" type="text" id="descricao" name="desc" placeholder="Informe Descrição para Consulta"  > 
+            </div>
+        
+            
+            <div class="input-group  mb-3">
+                <span class="input-group-text bg-color-ncm">Código NCM</span>
+                <input class="form-control" type="text" id="id-ncm" name="ncm" placeholder="Informe Código NCM para Cadastro" autofocus>
+            </div>
+
+            <div class="input-group  mb-3">
+                <span class="input-group-text">Código CFOP</span>
+                <select  class="form-select" id="id-cfop" name="cfop" required>  
+                    <% cfops.forEach(function(cfop){ if (cfop.cfop == "5102") { %>
+
+                        <option value="<%=cfop.cfop%>" selected ><%=cfop.cfop%> - <%=cfop.descricao_aplicacao%></option>
+
+                    <% } else { %>
+
+                        <option value="<%=cfop.cfop%>"><%=cfop.cfop%> - <%=cfop.descricao_aplicacao%></option>
+                    <% } %>
+
+                    <% }) %>
+                </select>
+               
+            </div>
+            
+            <div class="input-group  mb-3">
+                <span class="input-group-text">Código CSOSN</span>
+                <select  class="form-select" id="id-csosn" name="csosn" required>     
+                    <% csosns.forEach(function(csosn){ if (csosn.csosn == "102") { %>
+
+                        <option value="<%=csosn.csosn%>" selected ><%=csosn.csosn%> - <%=csosn.descricao%></option>
+
+                    <% } else { %>
+
+                        <option value="<%=csosn.csosn%>"><%=csosn.csosn%>- <%=csosn.descricao%></option>
+                    <% } %>
+
+                    <% }) %>
+                </select>
+            </div>
+            
+            <div class="input-group  mb-3">
+                <span class="input-group-text">Descição do Produto </span>
+                <input class="form-control" type="text" id="id-description" name="descricao" placeholder="Descição Nota de Origem" required>
+            </div>
+
+            <div class="input-group  mb-3">
+                <span class="input-group-text">Unidade de Medida</span>
+                <select  class="form-select" id="id-unidade" name="unidadeId" required>
+                    <% unidades.forEach(function(unidade){ if (unidade.unidade == "UNID") { %>
+
+                        <option value="<%=unidade.id%>" selected ><%=unidade.unidade%> - <%=unidade.descricao%></option>
+
+                    <% } else { %>
+
+                        <option value="<%=unidade.id%>"><%=unidade.unidade%> - <%=unidade.descricao%></option>
+                    <% } %>
+
+                    <% }) %>
+                </select>
+            </div>           
+
+            <div class="input-group  mb-3">
+                <span class="input-group-text">Preço de Custo</span>
+                <input class="form-control" type="number"  step="any" id="id-custo" name="custo" required>
+                <span  class="input-group-text">Preço de Venda</span>
+                <input class="form-control" type="number"  step="any" id="id-preco" name="preco" required>
+            </div>                    
+                       
+            <div class="col-12"> 
+                <input class="button btn btn-sm btn-primary" type="submit" value="Salvar">
+                <input class="button btn btn-sm btn-secondary" type="reset" value="Limpar">
+            </div>
+    
+        </form>    
+    </div>
+              
+    </main>
+
+ 
+
+<%- include ('../partials/footer'); %>
+
+<%- include ('../partials/down'); %>
+<script>
+
+function ajax(config) {       
+    
+    const xhr = new XMLHttpRequest()
+    xhr.open(config.metodo, config.url, true)
+    xhr.onload = e => {
+            if (xhr.status === 200) {
+                config.sucesso(xhr.response)
+            } else if (xhr.status >= 400) {
+                config.erro({
+                    code: xhr.status,
+                    text: xhr.statusText
+                })
+            }
+        }
+        xhr.send()
+    
+}    
+
+  
+
+function criarTabela(ncms) {
+
+
+    const linhas = ncms.map(ncm => {
+            
+    const tdCodigo = document.createElement('td')
+    tdCodigo.innerHTML = ncm.Codigo
+    tdCodigo.setAttribute("scope", "row")
+
+    const tdDescricao = document.createElement('td')
+    tdDescricao.innerHTML = ncm.Descricao
+    tdDescricao.setAttribute("scope", "row")
+
+    const tdAnoato = document.createElement('td')
+    tdAnoato.innerHTML = ncm.Ano_Ato
+    tdAnoato.setAttribute("scope", "row")
+
+    const tr = document.createElement('tr')
+    
+    tr.appendChild(tdCodigo)
+    tr.appendChild(tdAnoato)
+    tr.appendChild(tdDescricao)
+    
+    return tr
+        
+    })
+
+    
+        
+    // Cria Table
+    const tabela = document.createElement('table')
+
+    // Cria Thead
+    const cabeca = document.createElement('thead')
+
+    // ( linha 1 Cria ths ) ( linha 2 insere html na tag th ) ( linha 3 seta cria atributo e valor para th )     
+    const thCodigo = document.createElement('th')
+    thCodigo.innerHTML = "Código"
+    thCodigo.setAttribute("scope", "col")
+
+    // ( linha 1 Cria ths ) ( linha 2 insere html na tag th ) ( linha 3 seta cria atributo e valor para th ) 
+    const thAnoato = document.createElement('th')
+    thAnoato.innerHTML = "Ano"
+    thAnoato.setAttribute("scope", "col")
+    
+    // ( linha 1 Cria ths ) ( linha 2 insere html na tag th ) ( linha 3 seta cria atributo e valor para th ) 
+    const thDescricao = document.createElement('th')
+    thDescricao.innerHTML = "Descrição"
+    thDescricao.setAttribute("scope", "col")
+
+    // Acrecenta th dentro de thead para cada linha
+    cabeca.appendChild(thCodigo)
+    cabeca.appendChild(thAnoato)
+    cabeca.appendChild(thDescricao)
+
+    // Acrecenta  thead na table
+    tabela.appendChild(cabeca)
+
+    //Cria Tbody
+    const corpo = document.createElement('tbody')
+    
+    // Acrecenta tbody em table
+    tabela.appendChild(corpo)
+
+
+
+    linhas.forEach(linha => corpo.appendChild(linha))   
+
+
+
+    document.getElementById("modal-body").appendChild(tabela)
+    
+    // Atribui Id para tabela[0]
+    tabela.id = 'tabela'
+    
+    // Cria atributo class com valor table table-hover para tabela
+    var t = document.querySelector("table")
+    t.setAttribute("class", "table table-hover")
+
+                
+}
+
+
+function buscaNcms(){
+
+    event.preventDefault()
+    
+    let descricao = document.getElementById("descricao").value   
+
+    ajax({
+        url: `http://localhost:3000/ncms/?descricao=${descricao}`,
+        metodo: "get",
+        sucesso(resposta){
+            const ncms = JSON.parse(resposta)
+            console.log("sucesso resposta Ncms", ncms)
+            criarTabela(ncms)
+
+            
+        },
+        erro(e) {
+            const msg = document.createTextNode(`${e.code}: ${e.text}`)
+            document.body.appendChild(msg)
+        }
+    })
+}
+
+    </script>
+
+    <script>
+        function cleanTable (){
+
+            document.getElementById("tabela").outerHTML = "";
+        }
+    </script>
+
+    <script>
+        function showModalNcm () {  
+            let el = document.getElementById('modal-ncm')
+            let modal = new bootstrap.Modal(el)
+            modal.show()          
+         }
+    </script>
+
+<script>
+
+// Example starter JavaScript for disabling form submissions if there are invalid fields
+(function () {
+  'use strict'
+
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  var forms = document.querySelectorAll('.needs-validation')
+
+  // Loop over them and prevent submission
+  Array.prototype.slice.call(forms)
+    .forEach(function (form) {
+      form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+
+        form.classList.add('was-validated')
+      }, false)
+    })
+})()
+
+</script>

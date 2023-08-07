@@ -1,0 +1,52 @@
+<%- include ('partials/top'); %>
+<header><%- include ('partials/navbar'); %></header>
+<main>
+    <div class="boxIndex">
+        <h1 class="text-center">Bem vido a nossa Home!</h1>
+        <hr>
+        <p class="text-dark margin-left-right-5por"> Seja bem-vindo, 
+            <% if (usuario) {%> 
+            <%=usuario.nome%>
+            <% } %>
+        </p>
+        
+        <div class="boxEmpUserIndex">
+
+            <% if (usuario.email !== 'admin@gmail.com') { %>
+            <form action="/empresaUsuario/select" method="post">
+
+            <div class="input-group mb-3">
+                <span class="input-group-text tituloNavEmpUser">Selecione uma Empresa</span>
+            </div>
+
+            <!-- <nav class="navbar navbar-light tituloNavEmpUser">
+                <div class="container">Selecione uma Empresa </div>
+            </nav>             -->
+        
+            <div class="input-group mb-3">
+                <span class="input-group-text">Empresa / Usuário</span>
+                <select  class="form-select" id="empresa-Id" name="id" required>     
+                    <% empusers.forEach(function(empuser){ %>
+                        <%  empresas.forEach(function(empresa) { %>
+                          <%  if (empuser.empresaId == empresa.id  && empuser.usuarioId == usuario.id){  %>
+                            <option value="<%=empuser.empresa.id%>"><%=empuser.empresa.razao%> - <%=empuser.empresa.fantasia%></option> 
+                          <% } %>
+                        <% } ) %>
+                    <% } )%>
+                </select>
+            </div>
+
+
+        <div class="col-12"> 
+            <input class="button btn btn-sm btn-primary" type="submit" value="Salvar">
+            <input class="button btn btn-sm btn-secondary" type="reset" value="Limpar">
+        </div>   
+
+        </form>
+        <% } %>
+    </div>
+</main>   
+
+<%- include ('partials/footer'); %>
+
+<%- include ('partials/down'); %>

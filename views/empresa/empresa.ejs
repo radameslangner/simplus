@@ -1,0 +1,93 @@
+<%- include ('../partials/top'); %>
+<%- include ('../partials/messageModal'); %>
+<header><%- include ('../partials/navbarAdmin'); %></header>
+ 
+
+
+<main class="flex-container direction-column">
+
+         
+  <h1 class="text-center">RELAÇÃO DE EMPRESAS</h1>
+
+  <div class="tabelaScroll-y">
+
+    <table class="table table-hover">
+        <thead>
+            <th scope="col">ID</th>
+            <th scope="col">RAZÃO SOCIAL</th>
+            <th scope="col">FANTASIA</th>
+            <th scope="col">CNPJ</th>
+            <th scope="col">INSC. ESTADUAL</th>
+            <th scope="col">STATUS</th>
+            <th scope="col">CSOSN</th>
+            <th scope="col">Editar</th>
+            <th scope="col">Deletar</th>
+
+        </thead>
+        <tbody>  
+
+    <% empresas.forEach(function(empresa){  %>
+
+            <tr>
+                <td><%=empresa.id%></td>
+                <td><%=empresa.razao%></td>
+                <td><%=empresa.fantasia%></td>
+                <td><%=empresa.cnpj%></td>
+                <td><%=empresa.ie%></td>
+                <td><%=empresa.status%></td>
+                <td><%=empresa.csosn.csosn%></td>
+
+
+                <td class="ta-center"><a class="font-awesome color-edit" href="/empresa/edit/<%=empresa.id%>" 
+                    ata-toggle="tooltip" title="Editar Unidade"></a></td>
+                <td class="ta-center"><a class="font-awesome color-delete" href="/empresa/excluir/<%=empresa.id%>" 
+                    ata-toggle="tooltip" title="Excluir CFOP"
+                    onclick="return confirm('Confirmar a Exclusão?')"></a></td>                                       
+            </tr>
+            </tr>
+    <% }) %>
+        </tbody>
+    </table>
+    
+  </div>
+  
+</main>
+
+
+
+<%- include ('../partials/footer'); %>
+
+<%- include ('../partials/down'); %>
+
+<script>
+
+// Example starter JavaScript for disabling form submissions if there are invalid fields
+(function () {
+  'use strict'
+
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  var forms = document.querySelectorAll('.needs-validation')
+
+  // Loop over them and prevent submission
+  Array.prototype.slice.call(forms)
+    .forEach(function (form) {
+      form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+
+        form.classList.add('was-validated')
+      }, false)
+    })
+})()
+
+</script>
+
+<script>
+    function showModal() {  
+        let el = document.getElementById('modal-message')
+        let modal = new bootstrap.Modal(el)
+        modal.show()          
+     }
+</script>

@@ -1,0 +1,65 @@
+<%- include ('../partials/top'); %>
+<%- include ('../partials/messageModal'); %>
+<header><%- include ('../partials/navbarAdmin'); %></header>
+
+
+<main class="flex-container direction-column">
+
+         
+    <h1 class="text-center">RELAÇÃO DE EMPRESAS USUÁRIO</h1>
+  
+    <div class="tabelaScroll-y">
+
+   
+            <table class="table table-hover tabelaScroll-y">
+                <thead>
+                    <th scope="col">ID</th>
+                    <th scope="col">RAZÃO SOCIAL</th>
+                    <th scope="col">FANTAZIA</th>
+                    <th scope="col">CNPJ</th>
+                    <th scope="col">USUÁRIO</th>
+                    <th scope="col">E-MAIL USER</th>
+                    <th scope="col">EDITAR</th>
+                    <th scope="col">EXCLUIR</th>
+                </thead>
+                <tbody>  
+    
+            <% empusers.forEach(function(empuser){ console.log("empuser: ", empuser) %>
+
+
+    
+                    <tr>
+                        <td><%=empuser.id%></td>
+                        <td><%=empuser.empresa.razao%></td>
+                        <td><%=empuser.empresa.fantasia%></td>
+                        <td><%=empuser.empresa.cnpj%></td>
+                        <td><%=empuser.usuario.nome%></td>
+                        <td><%=empuser.usuario.email%></td>
+
+                        <td class="ta-center"><a class="font-awesome color-edit" href="/empresaUsuario/edit/<%=empuser.id%>" 
+                            ata-toggle="tooltip" title="Editar Unidade"></a></td>
+                        <td class="ta-center"><a class="font-awesome color-delete" href="/empresaUsuario/excluir/<%=empuser.id%>" 
+                            ata-toggle="tooltip" title="Excluir CFOP"
+                            onclick="return confirm('Confirmar a Exclusão?')"></a></td>                                       
+                    </tr>
+                    </tr>
+            <% }) %>
+                </tbody>
+            </table>            
+
+    </div>
+
+    </main>
+
+
+    <%- include ('../partials/footer'); %>
+
+    <%- include ('../partials/down'); %>
+
+    <script>
+        function showModal() {  
+            let el = document.getElementById('modal-message')
+            let modal = new bootstrap.Modal(el)
+            modal.show()          
+         }
+    </script>

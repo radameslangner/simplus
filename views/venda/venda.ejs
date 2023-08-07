@@ -1,0 +1,354 @@
+<%- include ('../partials/top') %>
+<%- include ('../partials/messageModal'); %>
+<header><%- include ('../partials/navbar') %></header>
+
+    <main id="principal" class="">
+
+        <form id="vendas" class="sale" action="">
+
+            <div class="principal">
+
+                <div class="ladoEsquerdo">    
+
+                    <div><%= empresa.id%> - Empresa <%= empresa.razao%> - CNPJ <%= empresa.cnpj%></div>
+                    <div>Endereo <%= empresa.endereco.logradouro%>, <%= empresa.endereco.numero%> </div>            
+                    <div class="linhaBloco">CSOSN: <%= empresa.csosn.csosn %> - <%= empresa.csosn.descricao %>
+                        <!-- <input type="hidden" value="<%= empresa.csosn.id %>" name="csons" id="codigoCsosn"> 
+                        <input type="hidden"  name="venda" id="objVenda"> 
+                        <input type="hidden"  name="items" id="objItems">  -->
+                    </div>
+                    <div class="linhaBloco">Natureza da Operação: 1 - Saída <input type="hidden" value="1" name="naturezaOperacao" id="natOp"> </div>
+
+                    <div class="input-group">
+                        <span class="input-group-text bg-color-ncm">TOTAL R$: </span>
+                        <input type="number" step="0.01" id="valorTotal" name="totalTotal" class="form-control estiloCampoTotal" readonly >
+                    </div>
+
+                    <div>
+                        <form method="post" enctype="multipart/form-data" >
+                            <div class="input-group">
+                                <span class="input-group-text bg-color-ncm">QUANTIDADE</span>
+                                <input class="form-control" type="number" step="0.01" id="idQuantidade" name="quantidade"  autofocus required> 
+                            </div>                            
+                            <div class="input-group">
+                                <span class="input-group-text bg-color-ncm">PRODUTO</span>
+                                <input class="form-control" type="number" step="1" id="codigo" name="idProduto" placeholder="CÓDIGO" required> 
+                            </div>
+                            <div class="input-group">
+                                <span class="input-group-text bg-color-button-busca-ncm flexgrow" id="add" onclick="buscaProduto()">ADICIONAR</span>
+                                <span class="input-group-text bg-color-button-busca-ncm flexgrow" onclick="cleanTable()">LIMPAR</span>
+                                <span class="input-group-text bg-color-button-busca-ncm flexgrow" onclick="finalizar()">FINALIZAR</span>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="ladoDireito">
+
+                    <div class="listaItem">
+                        <h3>LISTA DE PRODUTOS</h3>
+                        <table id="tabela" class="table table-hover table-bordered">
+                            <thead class="fixa">
+                                <th class="centro">#</th>
+                                <th class="centro">Código</th>
+                                <th class="centro">Descricao</th>
+                                <th class="centro">Quantidade</th>
+                                <th class="centro">UN</th>
+                                <th class="centro">R$</th>
+                                <th class="centro">Total R$</th>
+                            </thead>
+                            <tbody id="corpo">
+                               
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+
+        </form>      
+              
+    </main>
+
+
+    <%- include ('../partials/footer') %>
+
+    <%- include ('../partials/down') %>
+
+    <script>
+        
+    let venda = {}    
+
+    venda.usuarioId = '<%=usuario.id%>'
+    venda.empresaId = '<%=empresa.id%>' 
+
+    let items = []
+
+    let sub = 0.000
+ 
+    let total = 0.000
+
+    let quantidade = 0.00
+
+    let csosn = '<%=empresa.csosn.csosn%>'
+
+    let cfop = null
+    
+    if (total == 0){
+
+        document.getElementById("valorTotal").value = parseFloat(total).toFixed(2)
+        venda.total = document.getElementById("valorTotal").value
+
+    } 
+
+    let cont = 1
+
+    function ajax(config) {       
+        
+        const xhr = new XMLHttpRequest()
+        xhr.open(config.metodo, config.url, true)
+        xhr.onload = e => {
+                if (xhr.status === 200) {
+                    config.sucesso(xhr.response)
+                } else if (xhr.status >= 400) {
+                    config.erro({
+                        code: xhr.status,
+                        text: xhr.statusText
+                    })
+                }
+            }
+            xhr.send()        
+    }   
+
+
+  
+    function criarTabela(produto) {
+
+    const tdCont = document.createElement('td')
+    tdCont.innerHTML = cont
+    tdCont.setAttribute("scope", "row")
+    tdCont.setAttribute("class", "direita")
+    
+    const tdIdProduto = document.createElement('td')
+    tdIdProduto.innerHTML = produto.id
+    tdIdProduto.setAttribute("scope", "row")
+    tdIdProduto.setAttribute("class", "direita")
+    
+    const tdDescricao = document.createElement('td')
+    tdDescricao.innerHTML = produto.descricao
+    tdDescricao.setAttribute("scope", "row")
+    
+    quantidade = document.getElementById("idQuantidade").value   
+    // troca , por . 
+    quantidade = quantidade.replace(/,/g, '.')
+    const tdQuantidade = document.createElement('td')
+    tdQuantidade.innerHTML = parseFloat(quantidade).toFixed(2)
+    tdQuantidade.setAttribute("scope", "row")
+    tdQuantidade.setAttribute("class", "direita")
+    
+    const tdUnidadeId = document.createElement('td')
+    tdUnidadeId.innerHTML = produto.unidade.unidade
+    tdUnidadeId.setAttribute("scope", "row")
+    tdUnidadeId.setAttribute("class", "direita")
+    
+    parseFloat(produto.preco)
+    const tdPreco = document.createElement('td')
+    tdPreco.innerHTML = parseFloat(produto.preco).toFixed(2)
+    tdPreco.setAttribute("scope", "row")
+    tdPreco.setAttribute("class", "direita")
+
+    const tdTotal = document.createElement('td')
+    tdTotal.innerHTML = parseFloat(produto.preco * quantidade).toFixed(2)
+    tdTotal.setAttribute("scope", "row")
+    tdTotal.setAttribute("class", "direita")
+
+    sub = (produto.preco * quantidade)
+    total = (total + (produto.preco * quantidade))
+
+    const tr = document.createElement('tr')
+
+    tr.appendChild(tdCont)
+    tr.appendChild(tdIdProduto)
+    tr.appendChild(tdDescricao)
+    tr.appendChild(tdQuantidade)
+    tr.appendChild(tdUnidadeId)
+    tr.appendChild(tdPreco)
+    tr.appendChild(tdTotal)
+
+    document.getElementById("corpo").appendChild(tr)
+                
+    }
+
+    function buscaProduto(){
+
+    event.preventDefault()
+
+    let codigo = document.getElementById("codigo").value   
+    let quantidade = document.getElementById("idQuantidade").value   
+
+    ajax({
+        url: `http://localhost:3000/buscaProduto/?codigo=${codigo}&quantidade=${quantidade}`,
+        metodo: "get",
+        sucesso(resposta){
+            const produto = JSON.parse(resposta)
+
+            criarTabela(produto)
+            
+            items.push({csosn: csosn, cfop: produto.cfop, quantidade: quantidade, total: sub, empresaId: venda.empresaId, usuarioId: venda.usuarioId, produtoId: produto.id })
+
+            document.getElementById("idQuantidade").value = ""
+            document.getElementById("codigo").value = ""
+            document.getElementById("idQuantidade").focus()
+            cont++  
+            sub = 0
+            document.getElementById("valorTotal").value = parseFloat(total).toFixed(2)
+            venda.total = document.getElementById("valorTotal").value 
+                    
+        },
+        erro(e) {
+            const msg = document.createTextNode(`${e.code}: ${e.text}`)
+            document.body.appendChild(msg)
+        }
+    })
+    }
+
+
+
+    function cleanTable(){
+
+    document.getElementById("corpo").outerHTML = ""
+
+    //Cria Tbody
+    let corpo = document.createElement('tbody')
+    
+    //Adiciona Tbody
+    document.getElementById("tabela").appendChild(corpo) 
+    
+    // Cria atributo id com valor corpo
+    var t = document.querySelector("tbody")
+    t.setAttribute("id", "corpo")
+        document.getElementById("idQuantidade").value = ""
+        document.getElementById("codigo").value = ""
+        document.getElementById("idQuantidade").focus()
+        cont = 1
+        total = 0        
+        document.getElementById("valorTotal").value = parseFloat(total).toFixed(2)     
+        venda.total = document.getElementById("valorTotal").value
+        venda.total = 0.00
+        items = []
+    }
+
+
+    function ajaxPost(config) {       
+
+        const xhr = new XMLHttpRequest()
+        xhr.open(config.metodo, config.url, true)
+        xhr.setRequestHeader('Content-Type', 'application/json')
+        xhr.onload = e => {
+                if (xhr.status === 200) {
+                    config.sucesso(xhr.response)
+                } else if (xhr.status >= 400) {
+                    config.erro({
+                        code: xhr.status,
+                        text: xhr.statusText
+                    })
+                }
+            }
+
+            xhr.send(JSON.stringify( {venda:venda, items:items} ))
+    }   
+
+
+    function finalizar(){
+
+        if ( venda !== null && items !== null ) {
+        
+        ajaxPost({
+        url: "http://localhost:3000/vendaFim",
+        metodo: "post",
+        sucesso(resposta){       
+            cleanTable()
+            const id = resposta
+            window.location.href = `http://localhost:3000/venda/cupom/?id=${id}`          
+        },
+        erro(e) {
+            const msg = document.createTextNode(`${e.code}: ${e.text}`)
+            document.body.appendChild(msg)
+        }
+    })
+}
+    // cleanTable()
+}
+
+    // Chamada da função buscaProduto ao precionar enter ou cleanTable ao precionar delete
+
+    document.addEventListener('keydown', function(event) {
+    
+    if (event.keyCode == 13) {
+        buscaProduto()
+        } else if  (event.keyCode == 46) {
+            cleanTable()
+            } else if  (event.keyCode == 35) {
+                finalizar()
+                } 
+    })
+
+
+    // função para desabilitar a tecla F5.
+    window.onkeydown = function(e) {
+    
+        if (
+            e.keyCode != 8   && 
+            e.keyCode != 9   && 
+            e.keyCode != 13  && 
+            e.keyCode != 35  && 
+            e.keyCode != 46  &&  
+            e.keyCode != 48  && 
+            e.keyCode != 49  && 
+            e.keyCode != 50  && 
+            e.keyCode != 51  && 
+            e.keyCode != 52  && 
+            e.keyCode != 53  &&
+            e.keyCode != 54  && 
+            e.keyCode != 55  && 
+            e.keyCode != 56  &&  
+            e.keyCode != 57  &&
+            e.keyCode != 96  && 
+            e.keyCode != 97  && 
+            e.keyCode != 98  && 
+            e.keyCode != 99  && 
+            e.keyCode != 100 && 
+            e.keyCode != 101 &&
+            e.keyCode != 102 && 
+            e.keyCode != 103 && 
+            e.keyCode != 104 &&  
+            e.keyCode != 105 &&  
+            e.keyCode != 110 
+            ) {
+            alert("Função não permitida", e.keyCode);
+            e.keyCode = 0;
+            e.returnValue = false;
+            return false;
+        }  
+    }
+
+
+
+    // função para desabilitar a tecla F5.
+    // window.onkeydown = function (e) {
+    // if (e.keyCode === 116) {
+    // alert("Função não permitida");
+    // e.keyCode = 0;
+    // e.returnValue = false;
+    // return false;
+    // }
+
+    // }
+
+
+    function alerta(venda){ 
+        
+        alert("Empresa Id: " + venda.empresaId + " - " + " Usuario Id" + venda.usuarioId + " - " + "Total: " + venda.total + "Items : " + items)   
+    }
+
+    </script>
